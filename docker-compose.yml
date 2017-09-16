@@ -1,0 +1,14 @@
+version: "2"
+
+services:
+  postgres:
+    image: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - /data/chatdb/postgres:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PGDATA: /var/lib/postgresql/data/pgdata
+      POSTGRES_USER: admin
+      POSTGRES_DB: chatdb
+      POSTGRES_PASSWORD: admin

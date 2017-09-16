@@ -1,0 +1,27 @@
+{
+  "name": "chat-graphql",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "apollo-server-express": "^1.1.2",
+    "body-parser": "^1.18.0",
+    "casual": "^1.5.17",
+    "express": "^4.15.4",
+    "graphql": "^0.11.3",
+    "graphql-tools": "^1.2.2",
+    "lodash": "^4.17.4",
+    "pg": "^7.3.0",
+    "pg-hstore": "^2.3.2",
+    "sequelize": "^4.8.3"
+  },
+  "devDependencies": {
+    "nodemon": "^1.12.0"
+  }
+}
