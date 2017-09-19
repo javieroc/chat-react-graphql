@@ -6,7 +6,7 @@ const schema = require('./schema')
 let app = express()
 
 app.use(
-  '/graphql',
+  '/api/graphql',
   bodyParser.json(),
   graphqlExpress({
     schema
@@ -15,7 +15,7 @@ app.use(
 
 app.use(
   '/graphiql',
-  graphiqlExpress({ endpointURL: '/graphql' })
+  graphiqlExpress({ endpointURL: '/api/graphql' })
 )
 
 module.exports = app
