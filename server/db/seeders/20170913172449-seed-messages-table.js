@@ -4,11 +4,11 @@ const Message = models.message
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    // Create 30 messages from random user in a random room
-    const promises = Array(30).fill().map((_) => {
+    // Create 120 messages from random user in a random room
+    const promises = Array(120).fill().map((_) => {
       return Message.create({
         text: casual.text,
-        room_id: casual.integer(1, 3),
+        room_id: casual.integer(1, 30),
         user_id: casual.integer(1, 10)
       })
     })
