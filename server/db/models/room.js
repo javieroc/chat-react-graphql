@@ -12,15 +12,18 @@ module.exports = (sequelize, DataTypes) => {
 
   Room.associate = (models) => {
     Room.User = Room.belongsTo(models.user, {
-      foreignKey: 'user_id'
+      foreignKey: 'user_id',
+      as: 'user'
     })
 
     Room.Messages = Room.hasMany(models.message, {
-      foreignKey: 'room_id'
+      foreignKey: 'room_id',
+      as: 'messages'
     })
 
     Room.RoomUsers = Room.hasMany(models.room_user, {
-      foreignKey: 'room_id'
+      foreignKey: 'room_id',
+      as: 'users'
     })
   }
 

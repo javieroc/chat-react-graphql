@@ -1,7 +1,7 @@
 const User = `
   type User {
     id: ID!
-    username: String!
+    username: String
     email: String!
     avatar: String
   }

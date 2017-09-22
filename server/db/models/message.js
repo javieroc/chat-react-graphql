@@ -8,11 +8,13 @@ module.exports = (sequelize, DataTypes) => {
 
   Message.associate = (models) => {
     Message.User = Message.belongsTo(models.user, {
-      foreignKey: 'user_id'
+      foreignKey: 'user_id',
+      as: 'user'
     })
 
     Message.Room = Message.belongsTo(models.room, {
-      foreignKey: 'room_id'
+      foreignKey: 'room_id',
+      as: 'room'
     })
   }
 

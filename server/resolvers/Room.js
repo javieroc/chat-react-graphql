@@ -2,8 +2,15 @@ const Room = require('../db/models').room
 
 const roomResolvers = {
   Query: {
-    rooms: (_, args) => {
-      return Room.findAll()
+    rooms: async (_, args) => {
+      const rooms = await Room.findAll({
+        include: [
+          'user',
+          'messages'
+        ]
+      })
+
+      return rooms
     }
   }
 }

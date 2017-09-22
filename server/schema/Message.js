@@ -1,9 +1,9 @@
 const Message = `
   type Message {
     id: ID!
-    text: String!
-    user: User!
-    room: Room!
+    text: String
+    user: User
+    room: Room
     created_at: String
     updated_at: String
   }

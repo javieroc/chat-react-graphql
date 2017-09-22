@@ -3,7 +3,14 @@ const Message = require('../db/models').message
 const messageResolvers = {
   Query: {
     messages: (_, args) => {
-      return Message.findAll()
+      const messages = Message.findAll({
+        include: [
+          'user',
+          'room'
+        ]
+      })
+
+      return messages
     }
   }
 }
