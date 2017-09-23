@@ -9,15 +9,13 @@ const rootQuery = `
   type Query {
     users: [User]
 
-    #rooms(
+    rooms(
       # Amount of rows to fetch
-      #first: Int!
+      first: Int!
 
       # Get records after this cursor
-      #after: String
-    #): Rooms
-
-    rooms: [Room]
+      after: String
+    ): Rooms
 
     messages: [Message]
   }
