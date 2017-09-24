@@ -5,9 +5,10 @@ import Chat from '../components/Chat'
 
 class Home extends Component {
   render () {
-    const { data } = this.props
+    console.log(this.props)
+    const { loading, rooms, loadMoreRooms } = this.props
 
-    if (data.loading) {
+    if (loading) {
       return <div>Loading...</div>
     }
 
@@ -15,7 +16,7 @@ class Home extends Component {
       <div className='container'>
         <div className='row'>
           <div className='col-md-4'>
-            <Rooms rooms={data.rooms} />
+            <Rooms rooms={rooms} loadMoreRooms={loadMoreRooms} />
           </div>
           <div className='col-md-8'>
             <Chat />
@@ -26,13 +27,52 @@ class Home extends Component {
   }
 }
 
-const query = gql`
-  query getRooms{
-    rooms {
-      id
-      name
+const RoomsQuery = gql`
+  query Rooms($cursor: String) {
+    rooms(first: 10, after: $cursor) {
+      totalCount
+      edges {
+        cursor
+        node {
+          id
+          name
+        }
+      }
+      pageInfo {
+        endCursor
+        hasNextPage
+      }
     }
   }
 `
 
-export default graphql(query)(Home)
+const HomeWithData = graphql(RoomsQuery, {
+  props ({ data: { loading, rooms, fetchMore } }) {
+    return {
+      loading,
+      rooms,
+      loadMoreRooms: () => {
+        console.log('loadMoreRooms', rooms)
+        return fetchMore({
+          query: RoomsQuery,
+          variables: {
+            cursor: rooms.pageInfo.endCursor
+          },
+          updateQuery: (previousResult, { fetchMoreResult }) => {
+            //console.log('fetchMoreResult', fetchMoreResult)
+            const newEdges = fetchMoreResult.rooms.edges
+            const pageInfo = fetchMoreResult.rooms.pageInfo
+            return {
+              rooms: {
+                edges: [...previousResult.rooms.edges, ...newEdges],
+                pageInfo
+              }
+            }
+          }
+        })
+      }
+    }
+  }
+})(Home)
+
+export default HomeWithData
