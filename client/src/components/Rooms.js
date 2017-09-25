@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import './Rooms.css'
 
 class Rooms extends Component {
   constructor (props) {
@@ -12,21 +13,24 @@ class Rooms extends Component {
   }
 
   componentDidMount () {
-    window.addEventListener('scroll', this.handleScroll, false)
+    const elem = document.getElementById('rooms-sidebar')
+    elem.addEventListener('scroll', this.handleScroll, false)
   }
 
-  componentWillMount () {
-    window.removeEventListener('scroll', this.handleScroll, false)
+  componentWillUnmount () {
+    const elem = document.getElementById('rooms-sidebar')
+    elem.removeEventListener('scroll', this.handleScroll, false)
   }
 
   handleScroll () {
     if (this.state.loading) return null
 
-    const scrolled = window.scrollY
-    const viewportHeight = window.innerHeight
-    const fullHeight = document.body.clientHeight
+    const elem = document.getElementById('rooms-sidebar')
+    const scrolled = elem.scrollTop
+    const viewportHeight = elem.clientHeight
+    const fullHeight = elem.scrollHeight
 
-    if (!(scrolled + viewportHeight + 300 >= fullHeight)) return null
+    if (!(scrolled + viewportHeight + 10 >= fullHeight)) return null
 
     return this.setState({ loading: true }, async () => {
       try {

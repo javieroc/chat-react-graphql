@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { gql, graphql } from 'react-apollo'
 import Rooms from '../components/Rooms'
 import Chat from '../components/Chat'
+import './Home.css'
 
 class Home extends Component {
   render () {
@@ -15,7 +16,9 @@ class Home extends Component {
       <div className='container'>
         <div className='row'>
           <div className='col-md-4'>
-            <Rooms rooms={rooms} loadMoreRooms={loadMoreRooms} />
+            <div id='rooms-sidebar'>
+              <Rooms rooms={rooms} loadMoreRooms={loadMoreRooms} />
+            </div>
           </div>
           <div className='col-md-8'>
             <Chat />
