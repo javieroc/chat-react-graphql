@@ -29,8 +29,11 @@ class Rooms extends Component {
     const scrolled = elem.scrollTop
     const viewportHeight = elem.clientHeight
     const fullHeight = elem.scrollHeight
+    console.log('scrolled', scrolled)
+    console.log('viewportHeight', viewportHeight)
+    console.log('fullHeight', fullHeight)
 
-    if (!(scrolled + viewportHeight + 10 >= fullHeight)) return null
+    if (!(scrolled + viewportHeight + 20 >= fullHeight)) return null
 
     return this.setState({ loading: true }, async () => {
       try {
@@ -56,11 +59,11 @@ class Rooms extends Component {
 
     const rooms = this.props.rooms.edges.map((elem) => {
       const room = elem.node
-      return <li className='list-group-item' key={room.id}>{room.name}</li>
+      return <a className='list-group-item' key={room.id}>{room.name}</a>
     })
 
     return (
-      <div>
+      <div id='rooms-sidebar' className='fluorescent-panel'>
         <ul className='list-group'>
           {rooms}
         </ul>

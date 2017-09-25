@@ -16,9 +16,7 @@ class Home extends Component {
       <div className='container'>
         <div className='row'>
           <div className='col-md-4'>
-            <div id='rooms-sidebar'>
-              <Rooms rooms={rooms} loadMoreRooms={loadMoreRooms} />
-            </div>
+            <Rooms rooms={rooms} loadMoreRooms={loadMoreRooms} />
           </div>
           <div className='col-md-8'>
             <Chat />
@@ -31,7 +29,7 @@ class Home extends Component {
 
 const RoomsQuery = gql`
   query Rooms($cursor: String) {
-    rooms(first: 10, after: $cursor) {
+    rooms(first: 20, after: $cursor) {
       totalCount
       edges {
         cursor
