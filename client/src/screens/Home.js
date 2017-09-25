@@ -29,7 +29,7 @@ class Home extends Component {
 
 const RoomsQuery = gql`
   query Rooms($cursor: String) {
-    rooms(first: 20, after: $cursor) {
+    rooms(first: 10, after: $cursor) {
       totalCount
       edges {
         cursor

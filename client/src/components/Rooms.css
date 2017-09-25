@@ -1,7 +1,6 @@
 #rooms-sidebar {
-    position: relative;
-    height: 700px;
-    overflow-y: scroll;
+    height: 300px;
+    overflow-y: auto;
 }
 
 #rooms-sidebar::-webkit-scrollbar {

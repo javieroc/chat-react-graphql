@@ -12,26 +12,13 @@ class Rooms extends Component {
     this.handleScroll = this.handleScroll.bind(this)
   }
 
-  componentDidMount () {
-    const elem = document.getElementById('rooms-sidebar')
-    elem.addEventListener('scroll', this.handleScroll, false)
-  }
-
-  componentWillUnmount () {
-    const elem = document.getElementById('rooms-sidebar')
-    elem.removeEventListener('scroll', this.handleScroll, false)
-  }
-
-  handleScroll () {
+  handleScroll (e) {
     if (this.state.loading) return null
 
-    const elem = document.getElementById('rooms-sidebar')
+    const elem = e.target
     const scrolled = elem.scrollTop
-    const viewportHeight = elem.clientHeight
+    const viewportHeight = elem.offsetHeight
     const fullHeight = elem.scrollHeight
-    console.log('scrolled', scrolled)
-    console.log('viewportHeight', viewportHeight)
-    console.log('fullHeight', fullHeight)
 
     if (!(scrolled + viewportHeight + 20 >= fullHeight)) return null
 
@@ -63,7 +50,7 @@ class Rooms extends Component {
     })
 
     return (
-      <div id='rooms-sidebar' className='fluorescent-panel'>
+      <div id='rooms-sidebar' className='fluorescent-panel' onScroll={(e) => this.handleScroll(e)}>
         <ul className='list-group'>
           {rooms}
         </ul>
