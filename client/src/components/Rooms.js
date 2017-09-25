@@ -30,8 +30,10 @@ class Rooms extends Component {
 
     return this.setState({ loading: true }, async () => {
       try {
-        const rooms = await this.props.loadMoreRooms()
-        console.log(rooms)
+        const { hasNextPage } = this.props.rooms.pageInfo
+        if (hasNextPage) {
+          await this.props.loadMoreRooms()
+        }
 
         this.setState({
           loading: false

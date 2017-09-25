@@ -5,7 +5,6 @@ import Chat from '../components/Chat'
 
 class Home extends Component {
   render () {
-    console.log(this.props)
     const { loading, rooms, loadMoreRooms } = this.props
 
     if (loading) {
@@ -52,18 +51,21 @@ const HomeWithData = graphql(RoomsQuery, {
       loading,
       rooms,
       loadMoreRooms: () => {
-        console.log('loadMoreRooms', rooms)
         return fetchMore({
           query: RoomsQuery,
           variables: {
             cursor: rooms.pageInfo.endCursor
           },
           updateQuery: (previousResult, { fetchMoreResult }) => {
-            //console.log('fetchMoreResult', fetchMoreResult)
             const newEdges = fetchMoreResult.rooms.edges
             const pageInfo = fetchMoreResult.rooms.pageInfo
+            const totalCount = fetchMoreResult.rooms.totalCount
+            const __typename = previousResult.rooms.__typename
+            console.log('total count', totalCount)
             return {
               rooms: {
+                __typename,
+                totalCount,
                 edges: [...previousResult.rooms.edges, ...newEdges],
                 pageInfo
               }
