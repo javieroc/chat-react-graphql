@@ -8,15 +8,11 @@ class Home extends Component {
   render () {
     const { loading, rooms, loadMoreRooms } = this.props
 
-    if (loading) {
-      return <div>Loading...</div>
-    }
-
     return (
       <div className='container'>
         <div className='row'>
           <div className='col-md-4'>
-            <Rooms rooms={rooms} loadMoreRooms={loadMoreRooms} />
+            <Rooms rooms={rooms} loadMoreRooms={loadMoreRooms} loading={loading} />
           </div>
           <div className='col-md-8'>
             <Chat />
@@ -28,8 +24,8 @@ class Home extends Component {
 }
 
 const RoomsQuery = gql`
-  query Rooms($cursor: String) {
-    rooms(first: 10, after: $cursor) {
+  query Rooms($first: Int!, $cursor: String) {
+    rooms(first: $first, after: $cursor) {
       totalCount
       edges {
         cursor
@@ -47,6 +43,10 @@ const RoomsQuery = gql`
 `
 
 const HomeWithData = graphql(RoomsQuery, {
+  options: {
+    variables: { first: 10 },
+    notifyOnNetworkStatusChange: true
+  },
   props ({ data: { loading, rooms, fetchMore } }) {
     return {
       loading,
@@ -55,6 +55,7 @@ const HomeWithData = graphql(RoomsQuery, {
         return fetchMore({
           query: RoomsQuery,
           variables: {
+            first: 3,
             cursor: rooms.pageInfo.endCursor
           },
           updateQuery: (previousResult, { fetchMoreResult }) => {
@@ -62,7 +63,6 @@ const HomeWithData = graphql(RoomsQuery, {
             const pageInfo = fetchMoreResult.rooms.pageInfo
             const totalCount = fetchMoreResult.rooms.totalCount
             const __typename = previousResult.rooms.__typename
-            console.log('total count', totalCount)
             return {
               rooms: {
                 __typename,
