@@ -2,23 +2,25 @@ import React, { Component } from 'react'
 import { gql, graphql } from 'react-apollo'
 import Rooms from '../components/Rooms'
 import Chat from '../components/Chat'
+import Spin from '../components/Spin'
 import './Home.css'
 
 class Home extends Component {
   render () {
     const { loading, rooms, loadMoreRooms } = this.props
-
     return (
-      <div className='container'>
-        <div className='row'>
-          <div className='col-md-4'>
-            <Rooms rooms={rooms} loadMoreRooms={loadMoreRooms} loading={loading} />
-          </div>
-          <div className='col-md-8'>
-            <Chat />
+      <Spin loading={loading} delay={1000}>
+        <div className='container'>
+          <div className='row'>
+            <div className='col-md-4'>
+              <Rooms rooms={rooms} loadMoreRooms={loadMoreRooms} loading={loading} />
+            </div>
+            <div className='col-md-8'>
+              <Chat />
+            </div>
           </div>
         </div>
-      </div>
+      </Spin>
     )
   }
 }

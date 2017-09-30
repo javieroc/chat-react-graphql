@@ -1,3 +1,29 @@
+.spin {
+    position: absolute;
+    top: 45%;
+    left: 45%;
+}
+
+.blur {
+    overflow: hidden;
+    opacity: 0.7;
+    -webkit-filter: blur(0.5px);
+    filter: blur(0.5px);
+}
+
+.blur:after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background: #fff;
+    opacity: 0.3;
+    transition: all .3s;
+    z-index: 10;
+}
+
 .loader {
     position: relative;
     width: 60px;
