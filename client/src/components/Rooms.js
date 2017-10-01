@@ -4,8 +4,12 @@ import './Rooms.css'
 class Rooms extends Component {
   constructor (props) {
     super(props)
+    this.state = {
+      roomName: ''
+    }
 
     this.handleScroll = this.handleScroll.bind(this)
+    this.handleClick = this.handleClick.bind(this)
   }
 
   handleScroll (e) {
@@ -22,21 +26,35 @@ class Rooms extends Component {
     }
   }
 
+  handleClick (e) {
+    const roomName = e.target.text
+    this.setState({
+      roomName
+    })
+  }
+
   render () {
     const { rooms } = this.props
+    let roomName = ''
     let roomsList = []
     if (rooms) {
+      if (!this.state.roomName) {
+        roomName = rooms.edges.length > 0 ? rooms.edges[0].node.name : ''
+      }
       roomsList = rooms.edges.map((elem) => {
         const room = elem.node
-        return <a className='list-group-item' key={room.id}>{room.name}</a>
+        return <a className='list-group-item' key={room.id} onClick={(e) => this.handleClick(e)}>{room.name}</a>
       })
     }
 
     return (
-      <div id='rooms-sidebar' className='fluorescent-panel' onScroll={(e) => this.handleScroll(e)}>
-        <ul className='list-group'>
-          {roomsList}
-        </ul>
+      <div className='rooms'>
+        <div className='parallelogram'>{this.state.roomName ? this.state.roomName : roomName}</div>
+        <div id='rooms-sidebar' className='fluorescent-panel' onScroll={(e) => this.handleScroll(e)}>
+          <ul className='list-group'>
+            {roomsList}
+          </ul>
+        </div>
       </div>
     )
   }

@@ -46,7 +46,7 @@ const RoomsQuery = gql`
 
 const HomeWithData = graphql(RoomsQuery, {
   options: {
-    variables: { first: 10 },
+    variables: { first: 15 },
     notifyOnNetworkStatusChange: true
   },
   props ({ data: { loading, rooms, fetchMore } }) {
