@@ -1,15 +1,14 @@
 import React, { Component } from 'react'
+import './Chat.css'
 
 class Chat extends Component {
   render () {
     return (
-      <div>
-        <div>
+      <div id='chat'>
+        <div id='messages' className='fluorescent-panel'>
         </div>
         <div>
-          <div className='form-group'>
-            <textarea className='form-control' rows='1' />
-          </div>
+          <div id='input-message' contentEditable='true' className='fluorescent-panel'></div>
         </div>
       </div>
     )

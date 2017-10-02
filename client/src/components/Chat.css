@@ -1,0 +1,10 @@
+#messages {
+    height: 668px;
+    margin-top: 20px;
+}
+
+#input-message {
+    display: block;
+    width: 100%;
+    overflow-wrap: break-word;
+}
