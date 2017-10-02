@@ -5,7 +5,11 @@
     "database": "chatdb",
     "host": "postgres",
     "port": 5432,
-    "dialect": "postgres"
+    "dialect": "postgres",
+    "define": {
+      "timestamps":true,
+      "underscored": true
+    }
   },
   "test": {
     "username": "admin",
@@ -13,7 +17,11 @@
     "database": "chatdb",
     "host": "postgres",
     "port": 5432,
-    "dialect": "postgres"
+    "dialect": "postgres",
+    "define": {
+      "timestamps":true,
+      "underscored": true
+    }
   },
   "production": {
     "username": "admin",
@@ -21,6 +29,10 @@
     "database": "chatdb",
     "host": "postgres",
     "port": 5432,
-    "dialect": "postgres"
+    "dialect": "postgres",
+    "define": {
+      "timestamps":true,
+      "underscored": true
+    }
   }
 }
