@@ -1,4 +1,10 @@
 const Message = `
+  type Messages {
+    totalCount: Int!
+    edges: [MessageEdge]!
+    pageInfo: PageInfo!
+  }
+
   type Message {
     id: ID!
     text: String
@@ -6,6 +12,11 @@ const Message = `
     room: Room
     created_at: String
     updated_at: String
+  }
+
+  type MessageEdge {
+    cursor: String!
+    node: Message!
   }
 `
 

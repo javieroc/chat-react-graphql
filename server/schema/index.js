@@ -17,6 +17,10 @@ const rootQuery = `
       after: String
     ): Rooms
 
+    room(
+      id: Int!
+    ): Room
+
     messages: [Message]
   }
 `

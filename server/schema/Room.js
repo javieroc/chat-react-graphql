@@ -10,7 +10,7 @@ const Room = `
     name: String!
     limit: Int
     user: User
-    messages: [Message]
+    messages: Messages
   }
 
   type RoomEdge {
