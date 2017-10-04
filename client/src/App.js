@@ -24,7 +24,7 @@ class App extends Component {
           <div>
             <Nav />
             <br />
-            <Route exact path='/' component={Home} />
+            <Route exact path='/' render={(props) => (<Home {...props} room_id={2} />)} />
             <Route path='/login' component={Login} />
           </div>
         </Router>

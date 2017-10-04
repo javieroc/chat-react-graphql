@@ -82,8 +82,72 @@ const RoomsQueryOptions = {
   }
 }
 
+const MessagesQuery = gql`
+  query Messages($room_id: Int!, $first: Int!, $cursor: String) {
+    messages(room_id: $room_id, first: $first, after: $cursor) {
+      totalCount
+      edges {
+        cursor
+        node {
+          id
+          text
+          user {
+            username
+          }
+        }
+      }
+      pageInfo {
+        endCursor
+        hasNextPage
+      }
+    }
+  }
+`
+
+const MessagesQueryOptions = {
+  options (props) {
+    return {
+      variables: { room_id: props.room_id, first: 10 },
+      notifyOnNetworkStatusChange: true
+    }
+  },
+  props ({ room_id, data: { loading, messages, fetchMore } }) {
+    return {
+      messagesQuery: {
+        loading,
+        messages,
+        loadMoreMessages: () => {
+          return fetchMore({
+            query: RoomsQuery,
+            variables: {
+              room_id: room_id,
+              first: 3,
+              cursor: messages.pageInfo.endCursor
+            },
+            updateQuery: (previousResult, { fetchMoreResult }) => {
+              const newEdges = fetchMoreResult.messages.edges
+              const pageInfo = fetchMoreResult.messages.pageInfo
+              const totalCount = fetchMoreResult.messages.totalCount
+              const __typename = previousResult.messages.__typename
+              return {
+                messages: {
+                  __typename,
+                  totalCount,
+                  edges: [...previousResult.rooms.edges, ...newEdges],
+                  pageInfo
+                }
+              }
+            }
+          })
+        }
+      }
+    }
+  }
+}
+
 const HomeWithData = compose(
-  graphql(RoomsQuery, RoomsQueryOptions)
+  graphql(RoomsQuery, RoomsQueryOptions),
+  graphql(MessagesQuery, MessagesQueryOptions)
 )(Home)
 
 export default HomeWithData
