@@ -21,7 +21,11 @@ const rootQuery = `
       id: Int!
     ): Room
 
-    messages: [Message]
+    messages(
+      room_id: Int!
+      first: Int!
+      after: String
+    ): Messages
   }
 `
 
