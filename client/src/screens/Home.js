@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { gql, graphql } from 'react-apollo'
+import { gql, graphql, compose } from 'react-apollo'
 import Rooms from '../components/Rooms'
 import Chat from '../components/Chat'
 import Spin from '../components/Spin'
@@ -7,7 +7,7 @@ import './Home.css'
 
 class Home extends Component {
   render () {
-    const { loading, rooms, loadMoreRooms } = this.props
+    const { loading, rooms, loadMoreRooms } = this.props.roomsQuery
     return (
       <Spin loading={loading} delay={1000}>
         <div className='container'>
@@ -44,40 +44,46 @@ const RoomsQuery = gql`
   }
 `
 
-const HomeWithData = graphql(RoomsQuery, {
+const RoomsQueryOptions = {
   options: {
     variables: { first: 15 },
     notifyOnNetworkStatusChange: true
   },
   props ({ data: { loading, rooms, fetchMore } }) {
     return {
-      loading,
-      rooms,
-      loadMoreRooms: () => {
-        return fetchMore({
-          query: RoomsQuery,
-          variables: {
-            first: 3,
-            cursor: rooms.pageInfo.endCursor
-          },
-          updateQuery: (previousResult, { fetchMoreResult }) => {
-            const newEdges = fetchMoreResult.rooms.edges
-            const pageInfo = fetchMoreResult.rooms.pageInfo
-            const totalCount = fetchMoreResult.rooms.totalCount
-            const __typename = previousResult.rooms.__typename
-            return {
-              rooms: {
-                __typename,
-                totalCount,
-                edges: [...previousResult.rooms.edges, ...newEdges],
-                pageInfo
+      roomsQuery: {
+        loading,
+        rooms,
+        loadMoreRooms: () => {
+          return fetchMore({
+            query: RoomsQuery,
+            variables: {
+              first: 3,
+              cursor: rooms.pageInfo.endCursor
+            },
+            updateQuery: (previousResult, { fetchMoreResult }) => {
+              const newEdges = fetchMoreResult.rooms.edges
+              const pageInfo = fetchMoreResult.rooms.pageInfo
+              const totalCount = fetchMoreResult.rooms.totalCount
+              const __typename = previousResult.rooms.__typename
+              return {
+                rooms: {
+                  __typename,
+                  totalCount,
+                  edges: [...previousResult.rooms.edges, ...newEdges],
+                  pageInfo
+                }
               }
             }
-          }
-        })
+          })
+        }
       }
     }
   }
-})(Home)
+}
+
+const HomeWithData = compose(
+  graphql(RoomsQuery, RoomsQueryOptions)
+)(Home)
 
 export default HomeWithData
