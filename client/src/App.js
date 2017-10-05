@@ -24,8 +24,8 @@ class App extends Component {
           <div>
             <Nav />
             <br />
-            <Route exact path='/' render={(props) => (<Home {...props} room_id={2} />)} />
-            <Route path='/login' component={Login} />
+            <Route exact path='/' component={Login} />
+            <Route path='/rooms/:roomId' component={Home} />
           </div>
         </Router>
       </ApolloProvider>

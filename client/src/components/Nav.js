@@ -11,10 +11,10 @@ const Nav = () => {
       <div className='collapse navbar-collapse' id='navbarNavDropdown'>
         <ul className='navbar-nav'>
           <li className='nav-item'>
-            <Link className='nav-link' to='/'>Home</Link>
+            <Link className='nav-link' to='/rooms/1'>Home</Link>
           </li>
           <li className='nav-item'>
-            <Link className='nav-link' to='/login'>Login</Link>
+            <Link className='nav-link' to='/'>Login</Link>
           </li>
         </ul>
       </div>

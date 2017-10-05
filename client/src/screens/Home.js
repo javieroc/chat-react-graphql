@@ -83,8 +83,8 @@ const RoomsQueryOptions = {
 }
 
 const MessagesQuery = gql`
-  query Messages($room_id: Int!, $first: Int!, $cursor: String) {
-    messages(room_id: $room_id, first: $first, after: $cursor) {
+  query Messages($roomId: Int!, $first: Int!, $cursor: String) {
+    messages(roomId: $roomId, first: $first, after: $cursor) {
       totalCount
       edges {
         cursor
@@ -105,13 +105,13 @@ const MessagesQuery = gql`
 `
 
 const MessagesQueryOptions = {
-  options (props) {
+  options: ({ match }) => {
     return {
-      variables: { room_id: props.room_id, first: 10 },
+      variables: { roomId: match.params.roomId, first: 10 },
       notifyOnNetworkStatusChange: true
     }
   },
-  props ({ room_id, data: { loading, messages, fetchMore } }) {
+  props: ({ data: { loading, messages, fetchMore }, match }) => {
     return {
       messagesQuery: {
         loading,
@@ -120,7 +120,7 @@ const MessagesQueryOptions = {
           return fetchMore({
             query: RoomsQuery,
             variables: {
-              room_id: room_id,
+              roomId: match.params.roomId,
               first: 3,
               cursor: messages.pageInfo.endCursor
             },

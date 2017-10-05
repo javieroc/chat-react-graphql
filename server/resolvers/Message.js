@@ -5,11 +5,11 @@ const messageResolvers = {
     messages: async (_, args) => {
       const cursor = args.after ? Buffer.from(args.after, 'base64').toString('ascii') : 999999
       const first = args.first ? args.first : 10
-      const room_id = args.room_id ? args.room_id : 1
+      const roomId = args.roomId ? args.roomId : 1
 
       const messages = await Message.findAll({
         where: {
-          room_id: room_id,
+          room_id: roomId,
           id: {
             $lt: cursor
           }
@@ -33,7 +33,7 @@ const messageResolvers = {
 
       const totalCount = await Message.count({
         where: {
-          room_id: room_id
+          room_id: roomId
         }
       })
 
@@ -43,7 +43,7 @@ const messageResolvers = {
       if (endCursor) {
         const restRows = await Message.count({
           where: {
-            room_id: room_id,
+            room_id: roomId,
             id: {
               $lt: endCursor
             }
