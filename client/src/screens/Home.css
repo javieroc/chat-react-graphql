@@ -3,6 +3,15 @@ body {
     background-size: cover;
 }
 
+.scrollbar-magic::-webkit-scrollbar {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.scrollbar-magic::-webkit-scrollbar-thumb {
+    background-color: #FD5F00;
+    opacity: 0.9;
+}
+
 .parallelogram {
     width: 200px;
     height: 20px;

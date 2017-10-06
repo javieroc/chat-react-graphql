@@ -7,16 +7,16 @@ import './Home.css'
 
 class Home extends Component {
   render () {
-    const { loading, rooms, loadMoreRooms } = this.props.roomsQuery
+    const { loading } = this.props.roomsQuery
     return (
       <Spin loading={loading} delay={1000}>
         <div className='container'>
           <div className='row'>
             <div className='col-md-4'>
-              <Rooms rooms={rooms} loadMoreRooms={loadMoreRooms} loading={loading} />
+              <Rooms {...this.props.roomsQuery} />
             </div>
             <div className='col-md-8'>
-              <Chat />
+              <Chat {...this.props.messagesQuery} />
             </div>
           </div>
         </div>

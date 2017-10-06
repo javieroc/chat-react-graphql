@@ -50,7 +50,7 @@ class Rooms extends Component {
     return (
       <div className='rooms'>
         <div className='parallelogram'>{this.state.roomName ? this.state.roomName : roomName}</div>
-        <div id='rooms-sidebar' className='fluorescent-panel' onScroll={(e) => this.handleScroll(e)}>
+        <div id='rooms-sidebar' className='fluorescent-panel scrollbar-magic' onScroll={(e) => this.handleScroll(e)}>
           <ul className='list-group'>
             {roomsList}
           </ul>
