@@ -1,27 +1,27 @@
-import React, { Component } from 'react'
-import { gql, graphql, compose } from 'react-apollo'
-import Rooms from '../components/Rooms'
-import Chat from '../components/Chat'
-import Spin from '../components/Spin'
-import './Home.css'
+import React, { Component } from 'react';
+import { gql, graphql, compose } from 'react-apollo';
+import Rooms from '../components/Rooms';
+import Chat from '../components/Chat';
+import Spin from '../components/Spin';
+import './Home.css';
 
 class Home extends Component {
-  render () {
-    const { loading } = this.props.roomsQuery
+  render() {
+    const { loading } = this.props.roomsQuery;
     return (
       <Spin loading={loading} delay={1000}>
-        <div className='container'>
-          <div className='row'>
-            <div className='col-md-4'>
+        <div className="container">
+          <div className="row">
+            <div className="col-md-4">
               <Rooms {...this.props.roomsQuery} />
             </div>
-            <div className='col-md-8'>
+            <div className="col-md-8">
               <Chat {...this.props.messagesQuery} />
             </div>
           </div>
         </div>
       </Spin>
-    )
+    );
   }
 }
 
@@ -42,14 +42,14 @@ const RoomsQuery = gql`
       }
     }
   }
-`
+`;
 
 const RoomsQueryOptions = {
   options: {
     variables: { first: 15 },
-    notifyOnNetworkStatusChange: true
+    notifyOnNetworkStatusChange: true,
   },
-  props ({ data: { loading, rooms, fetchMore } }) {
+  props({ data: { loading, rooms, fetchMore } }) {
     return {
       roomsQuery: {
         loading,
@@ -59,28 +59,28 @@ const RoomsQueryOptions = {
             query: RoomsQuery,
             variables: {
               first: 3,
-              cursor: rooms.pageInfo.endCursor
+              cursor: rooms.pageInfo.endCursor,
             },
             updateQuery: (previousResult, { fetchMoreResult }) => {
-              const newEdges = fetchMoreResult.rooms.edges
-              const pageInfo = fetchMoreResult.rooms.pageInfo
-              const totalCount = fetchMoreResult.rooms.totalCount
-              const __typename = previousResult.rooms.__typename
+              const newEdges = fetchMoreResult.rooms.edges;
+              const { pageInfo } = fetchMoreResult.rooms;
+              const { totalCount } = fetchMoreResult.rooms;
+              const { __typename } = previousResult.rooms;
               return {
                 rooms: {
                   __typename,
                   totalCount,
                   edges: [...previousResult.rooms.edges, ...newEdges],
-                  pageInfo
-                }
-              }
-            }
-          })
-        }
-      }
-    }
-  }
-}
+                  pageInfo,
+                },
+              };
+            },
+          });
+        },
+      },
+    };
+  },
+};
 
 const MessagesQuery = gql`
   query Messages($roomId: Int!, $first: Int!, $cursor: String) {
@@ -102,14 +102,14 @@ const MessagesQuery = gql`
       }
     }
   }
-`
+`;
 
 const MessagesQueryOptions = {
   options: ({ match }) => {
     return {
       variables: { roomId: match.params.roomId, first: 10 },
-      notifyOnNetworkStatusChange: true
-    }
+      notifyOnNetworkStatusChange: true,
+    };
   },
   props: ({ data: { loading, messages, fetchMore }, match }) => {
     return {
@@ -122,32 +122,32 @@ const MessagesQueryOptions = {
             variables: {
               roomId: match.params.roomId,
               first: 3,
-              cursor: messages.pageInfo.endCursor
+              cursor: messages.pageInfo.endCursor,
             },
             updateQuery: (previousResult, { fetchMoreResult }) => {
-              const newEdges = fetchMoreResult.messages.edges
-              const pageInfo = fetchMoreResult.messages.pageInfo
-              const totalCount = fetchMoreResult.messages.totalCount
-              const __typename = previousResult.messages.__typename
+              const newEdges = fetchMoreResult.messages.edges;
+              const { pageInfo } = fetchMoreResult.messages;
+              const { totalCount } = fetchMoreResult.messages;
+              const { __typename } = previousResult.messages;
               return {
                 messages: {
                   __typename,
                   totalCount,
                   edges: [...previousResult.rooms.edges, ...newEdges],
-                  pageInfo
-                }
-              }
-            }
-          })
-        }
-      }
-    }
-  }
-}
+                  pageInfo,
+                },
+              };
+            },
+          });
+        },
+      },
+    };
+  },
+};
 
 const HomeWithData = compose(
   graphql(RoomsQuery, RoomsQueryOptions),
-  graphql(MessagesQuery, MessagesQueryOptions)
-)(Home)
+  graphql(MessagesQuery, MessagesQueryOptions),
+)(Home);
 
-export default HomeWithData
+export default HomeWithData;
