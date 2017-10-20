@@ -20,6 +20,6 @@ const Room = `
     cursor: String!
     node: Room!
   }
-`
+`;
 
-module.exports = Room
+export default Room;

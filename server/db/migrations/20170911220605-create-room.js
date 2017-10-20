@@ -4,32 +4,32 @@ module.exports = {
       allowNull: false,
       autoIncrement: true,
       primaryKey: true,
-      type: Sequelize.INTEGER
+      type: Sequelize.INTEGER,
     },
     name: {
       type: Sequelize.STRING,
       allowNull: false,
-      unique: true
+      unique: true,
     },
     limit: {
-      type: Sequelize.INTEGER
+      type: Sequelize.INTEGER,
     },
     user_id: {
       type: Sequelize.INTEGER,
       allowNull: false,
       references: {
         model: 'users',
-        key: 'id'
-      }
+        key: 'id',
+      },
     },
     created_at: {
       allowNull: false,
-      type: Sequelize.DATE
+      type: Sequelize.DATE,
     },
     updated_at: {
       allowNull: false,
-      type: Sequelize.DATE
-    }
+      type: Sequelize.DATE,
+    },
   }),
-  down: (queryInterface, Sequelize) => queryInterface.dropTable('rooms')
-}
+  down: queryInterface => queryInterface.dropTable('rooms'),
+};

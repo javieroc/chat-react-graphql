@@ -5,6 +5,6 @@ const User = `
     email: String!
     avatar: String
   }
-`
+`;
 
-module.exports = User
+export default User;

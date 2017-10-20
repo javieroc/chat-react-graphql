@@ -1,21 +1,21 @@
-const express = require('express')
-const bodyParser = require('body-parser')
-const { graphqlExpress, graphiqlExpress } = require('apollo-server-express')
-const schema = require('./schema')
+import express from 'express';
+import bodyParser from 'body-parser';
+import { graphqlExpress, graphiqlExpress } from 'apollo-server-express';
+import schema from './schema';
 
-let app = express()
+const app = express();
 
 app.use(
   '/api/graphql',
   bodyParser.json(),
   graphqlExpress({
-    schema
-  })
-)
+    schema,
+  }),
+);
 
 app.use(
   '/graphiql',
-  graphiqlExpress({ endpointURL: '/api/graphql' })
-)
+  graphiqlExpress({ endpointURL: '/api/graphql' }),
+);
 
-module.exports = app
+export default app;

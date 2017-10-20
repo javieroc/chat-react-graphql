@@ -2,21 +2,21 @@ module.exports = (sequelize, DataTypes) => {
   const Message = sequelize.define('message', {
     text: {
       type: DataTypes.TEXT,
-      allowNull: false
-    }
-  })
+      allowNull: false,
+    },
+  });
 
   Message.associate = (models) => {
     Message.User = Message.belongsTo(models.user, {
       foreignKey: 'user_id',
-      as: 'user'
-    })
+      as: 'user',
+    });
 
     Message.Room = Message.belongsTo(models.room, {
       foreignKey: 'room_id',
-      as: 'room'
-    })
-  }
+      as: 'room',
+    });
+  };
 
-  return Message
-}
+  return Message;
+};

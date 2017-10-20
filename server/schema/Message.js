@@ -18,6 +18,6 @@ const Message = `
     cursor: String!
     node: Message!
   }
-`
+`;
 
-module.exports = Message
+export default Message;

@@ -1,9 +1,9 @@
-const { makeExecutableSchema } = require('graphql-tools')
-const resolvers = require('../resolvers')
-const User = require('./User')
-const Room = require('./Room')
-const Message = require('./Message')
-const CommonTypes = require('./CommonTypes')
+import { makeExecutableSchema } from 'graphql-tools';
+import resolvers from '../resolvers';
+import User from './User';
+import Room from './Room';
+import Message from './Message';
+import CommonTypes from './CommonTypes';
 
 const rootQuery = `
   type Query {
@@ -27,11 +27,11 @@ const rootQuery = `
       after: String
     ): Messages
   }
-`
+`;
 
 const schema = makeExecutableSchema({
   typeDefs: [rootQuery, User, Room, Message, CommonTypes],
-  resolvers
-})
+  resolvers,
+});
 
-module.exports = schema
+export default schema;

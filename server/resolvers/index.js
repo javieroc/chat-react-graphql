@@ -1,8 +1,8 @@
-const { merge } = require('lodash')
-const userResolvers = require('./User')
-const roomResolvers = require('./Room')
-const messageResolvers = require('./Message')
+import { merge } from 'lodash';
+import userResolvers from './User';
+import roomResolvers from './Room';
+import messageResolvers from './Message';
 
-const resolvers = merge(userResolvers, roomResolvers, messageResolvers)
+const resolvers = merge(userResolvers, roomResolvers, messageResolvers);
 
-module.exports = resolvers
+export default resolvers;

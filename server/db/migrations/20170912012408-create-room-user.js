@@ -4,35 +4,35 @@ module.exports = {
       allowNull: false,
       autoIncrement: true,
       primaryKey: true,
-      type: Sequelize.INTEGER
+      type: Sequelize.INTEGER,
     },
     state: {
-      type: Sequelize.STRING
+      type: Sequelize.STRING,
     },
     user_id: {
       type: Sequelize.INTEGER,
       allowNull: false,
       references: {
         model: 'users',
-        key: 'id'
-      }
+        key: 'id',
+      },
     },
     room_id: {
       type: Sequelize.INTEGER,
       allowNull: false,
       references: {
         model: 'rooms',
-        key: 'id'
-      }
+        key: 'id',
+      },
     },
     created_at: {
       allowNull: false,
-      type: Sequelize.DATE
+      type: Sequelize.DATE,
     },
     updated_at: {
       allowNull: false,
-      type: Sequelize.DATE
-    }
+      type: Sequelize.DATE,
+    },
   }),
-  down: (queryInterface, Sequelize) => queryInterface.dropTable('room_users')
-}
+  down: queryInterface => queryInterface.dropTable('room_users'),
+};

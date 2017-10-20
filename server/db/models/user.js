@@ -3,33 +3,33 @@ module.exports = (sequelize, DataTypes) => {
     username: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true
+      unique: true,
     },
     email: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true
+      unique: true,
     },
     avatar: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true
-    }
-  })
+      unique: true,
+    },
+  });
 
   User.associate = (models) => {
     User.Messages = User.hasMany(models.message, {
-      foreignKey: 'user_id'
-    })
+      foreignKey: 'user_id',
+    });
 
     User.Rooms = User.hasMany(models.room, {
-      foreignKey: 'user_id'
-    })
+      foreignKey: 'user_id',
+    });
 
     User.RoomUsers = User.hasMany(models.room_user, {
-      foreignKey: 'user_id'
-    })
-  }
+      foreignKey: 'user_id',
+    });
+  };
 
-  return User
-}
+  return User;
+};

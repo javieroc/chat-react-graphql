@@ -3,6 +3,6 @@ const CommonTypes = `
     endCursor: String!
     hasNextPage: Boolean!
   }
-`
+`;
 
-module.exports = CommonTypes
+export default CommonTypes;

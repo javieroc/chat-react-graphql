@@ -4,30 +4,30 @@ module.exports = {
       allowNull: false,
       autoIncrement: true,
       primaryKey: true,
-      type: Sequelize.INTEGER
+      type: Sequelize.INTEGER,
     },
     username: {
       type: Sequelize.STRING,
       allowNull: false,
-      unique: true
+      unique: true,
     },
     email: {
       type: Sequelize.STRING,
       allowNull: false,
-      unique: true
+      unique: true,
     },
     avatar: {
       type: Sequelize.STRING,
-      allowNull: false
+      allowNull: false,
     },
     created_at: {
       allowNull: false,
-      type: Sequelize.DATE
+      type: Sequelize.DATE,
     },
     updated_at: {
       allowNull: false,
-      type: Sequelize.DATE
-    }
+      type: Sequelize.DATE,
+    },
   }),
-  down: (queryInterface, Sequelize) => queryInterface.dropTable('users')
-}
+  down: queryInterface => queryInterface.dropTable('users'),
+};

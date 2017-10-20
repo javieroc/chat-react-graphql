@@ -1,11 +1,9 @@
-const User = require('../db/models').user
+import { user } from '../db/models';
 
 const userResolvers = {
   Query: {
-    users: (_, args) => {
-      return User.findAll()
-    }
-  }
-}
+    users: () => user.findAll(),
+  },
+};
 
-module.exports = userResolvers
+export default userResolvers;

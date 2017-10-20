@@ -1,60 +1,60 @@
-const Message = require('../db/models').message
+import { message } from '../db/models';
 
 const messageResolvers = {
   Query: {
     messages: async (_, args) => {
-      const cursor = args.after ? Buffer.from(args.after, 'base64').toString('ascii') : 999999
-      const first = args.first ? args.first : 10
-      const roomId = args.roomId ? args.roomId : 1
+      const cursor = args.after ? Buffer.from(args.after, 'base64').toString('ascii') : 999999;
+      const first = args.first ? args.first : 10;
+      const roomId = args.roomId ? args.roomId : 1;
 
-      const messages = await Message.findAll({
+      const messages = await message.findAll({
         where: {
           room_id: roomId,
           id: {
-            $lt: cursor
-          }
+            $lt: cursor,
+          },
         },
         limit: first,
         order: [
-          ['id', 'DESC']
+          ['id', 'DESC'],
         ],
         include: [
           'user',
-          'room'
-        ]
-      })
+          'room',
+        ],
+      });
 
-      const edges = messages.map((message) => {
+      const edges = messages.map((elem) => {
         return {
-          cursor: Buffer.from(message.id.toString()).toString('base64'),
-          node: message
-        }
-      })
+          cursor: Buffer.from(elem.id.toString()).toString('base64'),
+          node: elem,
+        };
+      });
 
-      const totalCount = await Message.count({
+      const totalCount = await message.count({
         where: {
-          room_id: roomId
-        }
-      })
+          room_id: roomId,
+        },
+      });
 
       // Calculate hasNextPage
-      let hasNextPage = false
-      let endCursor = messages.length > 0 ? messages[messages.length - 1].id : ''
+      let hasNextPage = false;
+      let endCursor = messages.length > 0 ? messages[messages.length - 1].id : '';
       if (endCursor) {
-        const restRows = await Message.count({
+        const restRows = await message.count({
           where: {
             room_id: roomId,
             id: {
-              $lt: endCursor
-            }
+              $lt: endCursor,
+            },
           },
           order: [
-            ['name', 'ASC']
-          ]
-        })
-        endCursor = Buffer.from(endCursor.toString()).toString('base64')
+            ['name', 'ASC'],
+          ],
+        });
+        endCursor = Buffer.from(endCursor.toString()).toString('base64');
         if (restRows > 0) {
-          hasNextPage = true
+          hasNextPage = true;
         }
       }
 
@@ -63,11 +63,11 @@ const messageResolvers = {
         edges,
         pageInfo: {
           endCursor,
-          hasNextPage
-        }
-      }
-    }
-  }
-}
+          hasNextPage,
+        },
+      };
+    },
+  },
+};
 
-module.exports = messageResolvers
+export default messageResolvers;

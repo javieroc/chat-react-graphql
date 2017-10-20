@@ -1,57 +1,56 @@
-const Room = require('../db/models').room
-const Message = require('../db/models').message
+import { room, message } from '../db/models';
 
 const roomResolvers = {
   Query: {
     rooms: async (_, args) => {
-      const cursor = args.after ? Buffer.from(args.after, 'base64').toString('ascii') : 'a'
-      const first = args.first ? args.first : 10
+      const cursor = args.after ? Buffer.from(args.after, 'base64').toString('ascii') : 'a';
+      const first = args.first ? args.first : 10;
 
       // Get rooms
-      const rooms = await Room.findAll({
+      const rooms = await room.findAll({
         where: {
           name: {
-            $gt: cursor
-          }
+            $gt: cursor,
+          },
         },
         order: [
-          ['name', 'ASC']
+          ['name', 'ASC'],
         ],
         limit: first,
         include: [
           'user',
-          'messages'
-        ]
-      })
+          'messages',
+        ],
+      });
 
       // Wrap rooms into edges
-      const edges = rooms.map((room) => {
+      const edges = rooms.map((elem) => {
         return {
-          cursor: Buffer.from(room.name).toString('base64'),
-          node: room
-        }
-      })
+          cursor: Buffer.from(elem.name).toString('base64'),
+          node: elem,
+        };
+      });
 
       // Get total rooms
-      const totalCount = await Room.count()
+      const totalCount = await room.count();
 
       // Calculate hasNextPage
-      let hasNextPage = false
-      let endCursor = rooms.length > 0 ? rooms[rooms.length - 1].name : ''
+      let hasNextPage = false;
+      let endCursor = rooms.length > 0 ? rooms[rooms.length - 1].name : '';
       if (endCursor) {
-        const restRows = await Room.count({
+        const restRows = await room.count({
           where: {
             name: {
-              $gt: endCursor
-            }
+              $gt: endCursor,
+            },
           },
           order: [
-            ['name', 'ASC']
-          ]
-        })
-        endCursor = Buffer.from(endCursor).toString('base64')
+            ['name', 'ASC'],
+          ],
+        });
+        endCursor = Buffer.from(endCursor).toString('base64');
         if (restRows > 0) {
-          hasNextPage = true
+          hasNextPage = true;
         }
       }
 
@@ -60,75 +59,74 @@ const roomResolvers = {
         edges,
         pageInfo: {
           endCursor,
-          hasNextPage
-        }
-      }
+          hasNextPage,
+        },
+      };
     },
     room: async (_, args) => {
-      const room = await Room.findOne({
+      return room.findOne({
         where: {
-          id: args.id
+          id: args.id,
         },
         include: [
-          'user'
-        ]
-      })
-      return room
-    }
+          'user',
+        ],
+      });
+    },
   },
   Room: {
-    async messages(room, args) {
-      const cursor = args.after ? Buffer.from(args.after, 'base64').toString('ascii') : 999999
-      const first = args.first ? args.first : 10
+    async messages(parent, args) {
+      const cursor = args.after ? Buffer.from(args.after, 'base64').toString('ascii') : 999999;
+      const first = args.first ? args.first : 10;
 
-      const messages = await Message.findAll({
+      const messages = await message.findAll({
         where: {
-          room_id: room.id,
+          room_id: parent.id,
           id: {
-            $lt: cursor
-          }
+            $lt: cursor,
+          },
         },
         limit: first,
         order: [
-          ['id', 'DESC']
+          ['id', 'DESC'],
         ],
         include: [
           'user',
-          'room'
-        ]
-      })
+          'room',
+        ],
+      });
 
-      const edges = messages.map((message) => {
+      const edges = messages.map((elem) => {
         return {
-          cursor: Buffer.from(message.id.toString()).toString('base64'),
-          node: message
-        }
-      })
+          cursor: Buffer.from(elem.id.toString()).toString('base64'),
+          node: elem,
+        };
+      });
 
-      const totalCount = await Message.count({
+      const totalCount = await message.count({
         where: {
-          room_id: room.id
-        }
-      })
+          room_id: parent.id,
+        },
+      });
 
       // Calculate hasNextPage
-      let hasNextPage = false
-      let endCursor = messages.length > 0 ? messages[messages.length - 1].id : ''
+      let hasNextPage = false;
+      let endCursor = messages.length > 0 ? messages[messages.length - 1].id : '';
       if (endCursor) {
-        const restRows = await Message.count({
+        const restRows = await message.count({
           where: {
             room_id: room.id,
             id: {
-              $lt: endCursor
-            }
+              $lt: endCursor,
+            },
           },
           order: [
-            ['name', 'ASC']
-          ]
-        })
-        endCursor = Buffer.from(endCursor.toString()).toString('base64')
+            ['name', 'ASC'],
+          ],
+        });
+        endCursor = Buffer.from(endCursor.toString()).toString('base64');
         if (restRows > 0) {
-          hasNextPage = true
+          hasNextPage = true;
         }
       }
 
@@ -137,11 +135,11 @@ const roomResolvers = {
         edges,
         pageInfo: {
           endCursor,
-          hasNextPage
-        }
-      }
-    }
-  }
-}
+          hasNextPage,
+        },
+      };
+    },
+  },
+};
 
-module.exports = roomResolvers
+export default roomResolvers;

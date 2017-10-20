@@ -3,29 +3,29 @@ module.exports = (sequelize, DataTypes) => {
     name: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true
+      unique: true,
     },
     limit: {
-      type: DataTypes.INTEGER
-    }
-  })
+      type: DataTypes.INTEGER,
+    },
+  });
 
   Room.associate = (models) => {
     Room.User = Room.belongsTo(models.user, {
       foreignKey: 'user_id',
-      as: 'user'
-    })
+      as: 'user',
+    });
 
     Room.Messages = Room.hasMany(models.message, {
       foreignKey: 'room_id',
-      as: 'messages'
-    })
+      as: 'messages',
+    });
 
     Room.RoomUsers = Room.hasMany(models.room_user, {
       foreignKey: 'room_id',
-      as: 'users'
-    })
-  }
+      as: 'users',
+    });
+  };
 
-  return Room
-}
+  return Room;
+};
