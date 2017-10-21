@@ -1,4 +1,4 @@
-module.exports = (sequelize, DataTypes) => {
+export default (sequelize, DataTypes) => {
   const RoomUser = sequelize.define('room_user', {
     state: {
       type: DataTypes.STRING,
