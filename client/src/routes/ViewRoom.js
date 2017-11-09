@@ -1,30 +1,28 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
 import Rooms from '../components/Rooms';
 import Chat from '../components/Chat';
 import Spin from '../components/Spin';
-import './Home.css';
+import './ViewRoom.css';
 
-class Home extends Component {
-  render() {
-    const { loading } = this.props.roomsQuery;
-    return (
-      <Spin loading={loading} delay={1000}>
-        <div className="container">
-          <div className="row">
-            <div className="col-md-4">
-              <Rooms {...this.props.roomsQuery} />
-            </div>
-            <div className="col-md-8">
-              <Chat {...this.props.messagesQuery} />
-            </div>
+const ViewRoom = (props) => {
+  const { loading } = props.roomsQuery;
+  return (
+    <Spin loading={loading} delay={1000}>
+      <div className="container">
+        <div className="row">
+          <div className="col-md-4">
+            <Rooms {...props.roomsQuery} />
+          </div>
+          <div className="col-md-8">
+            <Chat {...props.messagesQuery} />
           </div>
         </div>
-      </Spin>
-    );
-  }
-}
+      </div>
+    </Spin>
+  );
+};
 
 const RoomsQuery = gql`
   query Rooms($first: Int!, $cursor: String) {
@@ -146,9 +144,9 @@ const MessagesQueryOptions = {
   },
 };
 
-const HomeWithData = compose(
+const ViewRoomData = compose(
   graphql(RoomsQuery, RoomsQueryOptions),
   graphql(MessagesQuery, MessagesQueryOptions),
-)(Home);
+)(ViewRoom);
 
-export default HomeWithData;
+export default ViewRoomData;

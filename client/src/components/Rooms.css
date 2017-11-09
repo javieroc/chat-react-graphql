@@ -11,8 +11,10 @@
 .list-group-item {
     background-color: transparent;
     border: 0;
+    color: #FD5F00;
 }
 
 .rooms .list-group-item:hover {
     border: 1px solid;
+    color: #FD5F00;
 }
