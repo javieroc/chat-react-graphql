@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
-import { ApolloClient, createNetworkInterface, ApolloProvider } from 'react-apollo';
+import { ApolloClient } from 'apollo-client';
+import { createHttpLink } from 'apollo-link-http';
+import { InMemoryCache } from 'apollo-cache-inmemory';
+import { ApolloProvider } from 'react-apollo';
 import {
   BrowserRouter as Router,
   Route,
@@ -8,12 +11,9 @@ import Home from './screens/Home';
 import Login from './screens/Login';
 import Nav from './components/Nav';
 
-const networkInterface = createNetworkInterface({
-  uri: '/api/graphql',
-});
-
 const client = new ApolloClient({
-  networkInterface,
+  link: createHttpLink({ uri: '/api/graphql' }),
+  cache: new InMemoryCache(),
 });
 
 class App extends Component {

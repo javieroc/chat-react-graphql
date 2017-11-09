@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { gql, graphql, compose } from 'react-apollo';
+import { graphql, compose } from 'react-apollo';
+import gql from 'graphql-tag';
 import Rooms from '../components/Rooms';
 import Chat from '../components/Chat';
 import Spin from '../components/Spin';
