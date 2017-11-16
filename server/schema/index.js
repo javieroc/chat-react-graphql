@@ -9,6 +9,10 @@ const rootQuery = `
   type Query {
     users: [User]
 
+    user(
+      id: Int!
+    ): User
+
     rooms(
       # Amount of rows to fetch
       first: Int!
@@ -26,6 +30,10 @@ const rootQuery = `
       first: Int!
       after: String
     ): Messages
+  }
+
+  type Mutation {
+    signUp(user: NewUser): User
   }
 `;
 

@@ -35,12 +35,12 @@ class Rooms extends Component {
   }
 
   render() {
-    const { rooms } = this.props;
+    const { rooms, roomId } = this.props;
     let roomName = '';
     let roomsList = [];
     if (rooms) {
       if (!this.state.roomName) {
-        roomName = rooms.edges.length > 0 ? rooms.edges[0].node.name : '';
+        roomName = rooms.edges.length > 0 ? rooms.edges.find(elem => elem.node.id === roomId).node.name : '';
       }
       roomsList = rooms.edges.map((elem) => {
         const room = elem.node;

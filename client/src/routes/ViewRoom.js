@@ -48,11 +48,12 @@ const RoomsQueryOptions = {
     variables: { first: 15 },
     notifyOnNetworkStatusChange: true,
   },
-  props({ data: { loading, rooms, fetchMore } }) {
+  props({ ownProps: { match }, data: { loading, rooms, fetchMore } }) {
     return {
       roomsQuery: {
         loading,
         rooms,
+        roomId: match.params.roomId,
         loadMoreRooms: () => {
           return fetchMore({
             query: RoomsQuery,
@@ -110,7 +111,7 @@ const MessagesQueryOptions = {
       notifyOnNetworkStatusChange: true,
     };
   },
-  props: ({ data: { loading, messages, fetchMore }, match }) => {
+  props: ({ ownProps: { match }, data: { loading, messages, fetchMore } }) => {
     return {
       messagesQuery: {
         loading,
