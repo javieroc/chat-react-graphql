@@ -1,21 +1,19 @@
-const casual = require('casual')
-const models = require('../models')
-const User = models.user
+const casual = require('casual');
+const { user } = require('../models');
 
 module.exports = {
-  up: (queryInterface, Sequelize) => {
+  up: () => {
     // Create 10 users
-    const promises = Array(10).fill().map((_) => {
-      return User.create({
+    const promises = Array(10).fill().map(() => {
+      return user.create({
         username: casual.username,
         email: casual.email,
-        avatar: 'http://www.gravatar.com/avatar/?s=200'
-      })
-    })
+        avatar: 'http://www.gravatar.com/avatar/?s=200',
+      });
+    });
 
-    return Promise.all(promises)
+    return Promise.all(promises);
   },
-
-  down: (queryInterface, Sequelize) => {
-  }
-}
+  down: () => {
+  },
+};

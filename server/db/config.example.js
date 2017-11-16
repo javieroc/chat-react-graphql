@@ -1,4 +1,4 @@
-import Sequelize from 'sequelize';
+const Sequelize = require('sequelize');
 
 const { Op } = Sequelize;
 
@@ -36,4 +36,4 @@ const config = {
   },
 };
 
-export default config;
+module.exports = config;

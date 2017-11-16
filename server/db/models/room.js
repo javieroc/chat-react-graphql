@@ -1,4 +1,4 @@
-export default (sequelize, DataTypes) => {
+module.exports = (sequelize, DataTypes) => {
   const Room = sequelize.define('room', {
     name: {
       type: DataTypes.STRING,

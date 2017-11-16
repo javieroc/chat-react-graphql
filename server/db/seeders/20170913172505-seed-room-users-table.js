@@ -1,6 +1,5 @@
-const casual = require('casual')
-const Message = require('../models').message
-const RoomUser = require('../models').room_user
+const Message = require('../models').message;
+const RoomUser = require('../models').room_user;
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
@@ -9,23 +8,21 @@ module.exports = {
         Sequelize.literal('DISTINCT ON("user_id") user_id'),
         'id',
         'user_id',
-        'room_id'
+        'room_id',
       ],
-    })
+    });
 
     const promises = disctictMessages.map((elem) => {
-      let message = elem.get()
+      const message = elem.get();
       return RoomUser.create({
         state: 'active',
         user_id: message.user_id,
-        room_id: message.room_id
-      })
-    })
+        room_id: message.room_id,
+      });
+    });
 
-    return Promise.all(promises)
+    return Promise.all(promises);
   },
-
-  down: (queryInterface, Sequelize) => {
-
-  }
-}
+  down: () => {
+  },
+};

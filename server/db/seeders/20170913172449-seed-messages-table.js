@@ -1,22 +1,19 @@
-const casual = require('casual')
-const models = require('../models')
-const Message = models.message
+const casual = require('casual');
+const { message } = require('../models');
 
 module.exports = {
-  up: (queryInterface, Sequelize) => {
+  up: () => {
     // Create 120 messages from random user in a random room
-    const promises = Array(500).fill().map((_) => {
-      return Message.create({
+    const promises = Array(500).fill().map(() => {
+      return message.create({
         text: casual.text,
         room_id: casual.integer(1, 30),
-        user_id: casual.integer(1, 10)
-      })
-    })
+        user_id: casual.integer(1, 10),
+      });
+    });
 
-    return Promise.all(promises)
+    return Promise.all(promises);
   },
-
-  down: (queryInterface, Sequelize) => {
-
-  }
-}
+  down: () => {
+  },
+};
