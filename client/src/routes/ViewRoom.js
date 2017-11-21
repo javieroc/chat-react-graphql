@@ -1,13 +1,24 @@
 import React from 'react';
 import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
+import { Redirect } from 'react-router-dom';
 import Rooms from '../components/Rooms';
 import Chat from '../components/Chat';
 import Spin from '../components/Spin';
 import './ViewRoom.css';
 
 const ViewRoom = (props) => {
-  const { loading } = props.roomsQuery;
+  const { loading, rooms } = props.roomsQuery;
+
+  if (!loading) {
+    const firstRoomId = rooms.edges[0].node.id;
+    const roomId = props.match.params.roomId || firstRoomId;
+    const room = rooms.edges.find(elem => elem.node.id === roomId);
+    if (!room) {
+      return <Redirect to={`/rooms/${firstRoomId}`} />;
+    }
+  }
+
   return (
     <Spin loading={loading} delay={1000}>
       <div className="container">
@@ -83,7 +94,7 @@ const RoomsQueryOptions = {
 };
 
 const MessagesQuery = gql`
-  query Messages($roomId: Int!, $first: Int!, $cursor: String) {
+  query Messages($roomId: Int, $first: Int!, $cursor: String) {
     messages(roomId: $roomId, first: $first, after: $cursor) {
       totalCount
       edges {
@@ -118,7 +129,7 @@ const MessagesQueryOptions = {
         messages,
         loadMoreMessages: () => {
           return fetchMore({
-            query: RoomsQuery,
+            query: MessagesQuery,
             variables: {
               roomId: match.params.roomId,
               first: 3,

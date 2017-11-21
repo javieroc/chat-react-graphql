@@ -26,7 +26,7 @@ const rootQuery = `
     ): Room
 
     messages(
-      roomId: Int!
+      roomId: Int
       first: Int!
       after: String
     ): Messages

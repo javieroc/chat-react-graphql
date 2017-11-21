@@ -13,7 +13,7 @@ const Routes = () => (
       <Nav />
       <br />
       <Route exact path="/" component={Login} />
-      <Route path="/rooms/:roomId" component={ViewRoom} />
+      <Route path="/rooms/:roomId?" component={ViewRoom} />
     </div>
   </Router>
 );

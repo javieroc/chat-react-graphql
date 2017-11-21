@@ -40,7 +40,9 @@ class Rooms extends Component {
     let roomsList = [];
     if (rooms) {
       if (!this.state.roomName) {
-        roomName = rooms.edges.length > 0 ? rooms.edges.find(elem => elem.node.id === roomId).node.name : '';
+        roomName = roomId && rooms.edges.length > 0
+          ? rooms.edges.find(elem => elem.node.id === roomId).node.name
+          : rooms.edges[0].node.name;
       }
       roomsList = rooms.edges.map((elem) => {
         const room = elem.node;

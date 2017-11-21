@@ -1,11 +1,21 @@
-import { message } from '../db/models';
+import { message, room } from '../db/models';
 
 const messageResolvers = {
   Query: {
     messages: async (_, args) => {
       const cursor = args.after ? Buffer.from(args.after, 'base64').toString('ascii') : 999999;
       const first = args.first ? args.first : 10;
-      const roomId = args.roomId ? args.roomId : 1;
+
+      let { roomId } = args;
+      if (!roomId) {
+        const firstRoom = await room.findOne({
+          order: [
+            ['name', 'ASC'],
+          ],
+        });
+
+        roomId = firstRoom.id;
+      }
 
       const messages = await message.findAll({
         where: {
