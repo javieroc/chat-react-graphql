@@ -1,0 +1,32 @@
+.register-form {
+    width: 400px;
+    margin: auto;
+}
+
+.register-form form{
+    padding: 10px;
+}
+
+.custom-input {
+    background-color: rgba(0, 0, 0, 0.1);
+    color: #FD5F00;
+}
+
+.custom-input:focus {
+    background-color: rgba(0, 0, 0, 0.1);
+    border-color: #FD5F00;
+    color: #80bdff;
+    border-radius: 0;
+}
+
+.custom-button {
+    background-color: #3D424F;
+    border-color: #3D424F;
+    border-radius: 0;
+    width: 100%;
+}
+
+.custom-button:hover {
+    background-color: #FD5F00;
+    border-color: #FD5F00;
+}

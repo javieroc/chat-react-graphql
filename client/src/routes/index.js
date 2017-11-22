@@ -5,6 +5,7 @@ import {
 } from 'react-router-dom';
 import ViewRoom from './ViewRoom';
 import Login from './Login';
+import Register from './Register';
 import Nav from '../components/Nav';
 
 const Routes = () => (
@@ -12,7 +13,8 @@ const Routes = () => (
     <div>
       <Nav />
       <br />
-      <Route exact path="/" component={Login} />
+      <Route path="/" exact component={Login} />
+      <Route path="/register" exact component={Register} />
       <Route path="/rooms/:roomId?" component={ViewRoom} />
     </div>
   </Router>

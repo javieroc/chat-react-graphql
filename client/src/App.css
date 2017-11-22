@@ -1,0 +1,24 @@
+.parallelogram {
+    width: 200px;
+    height: 20px;
+    -webkit-transform: skew(-20deg);
+       -moz-transform: skew(-20deg);
+         -o-transform: skew(-20deg);
+    background: #FD5F00;
+    box-shadow:
+        0 0 10px #FD5F00,
+        inset 0 0 10px #FD5F00;
+    margin-left: 30px;
+    text-align: center;
+    opacity: 0.9;
+}
+
+.fluorescent-panel {
+    border: solid 4px #FD5F00;
+    background-color: rgba(0, 0, 0, 0.5);
+    box-shadow:
+        0 0 10px #FD5F00,
+        inset 0 0 10px #FD5F00;
+    color: #FD5F00;
+    opacity: 0.9;
+}
