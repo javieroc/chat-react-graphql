@@ -16,17 +16,21 @@ module.exports = {
       allowNull: false,
       unique: true,
     },
+    password: {
+      type: Sequelize.STRING,
+      allowNull: false,
+    },
     avatar: {
       type: Sequelize.STRING,
       allowNull: false,
     },
     created_at: {
-      allowNull: false,
       type: Sequelize.DATE,
+      allowNull: false,
     },
     updated_at: {
-      allowNull: false,
       type: Sequelize.DATE,
+      allowNull: false,
     },
   }),
   down: queryInterface => queryInterface.dropTable('users'),

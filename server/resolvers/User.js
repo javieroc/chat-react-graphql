@@ -1,4 +1,5 @@
 import { user, room } from '../db/models';
+import utils from '../utils';
 
 const userResolvers = {
   Query: {
@@ -65,6 +66,14 @@ const userResolvers = {
           hasNextPage,
         },
       };
+    },
+  },
+  Mutation: {
+    signUp: async (parent, { newUser }) => {
+      const { password, ...otherArgs } = newUser;
+      const hashedPassword = await utils.encryptPassword(password);
+
+      return user.create({ ...otherArgs, password: hashedPassword });
     },
   },
 };

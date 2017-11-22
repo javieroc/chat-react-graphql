@@ -26,12 +26,12 @@ module.exports = {
       },
     },
     created_at: {
-      allowNull: false,
       type: Sequelize.DATE,
+      allowNull: false,
     },
     updated_at: {
-      allowNull: false,
       type: Sequelize.DATE,
+      allowNull: false,
     },
   }),
   down: queryInterface => queryInterface.dropTable('room_users'),

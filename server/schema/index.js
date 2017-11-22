@@ -33,7 +33,7 @@ const rootQuery = `
   }
 
   type Mutation {
-    signUp(user: NewUser): User
+    signUp(newUser: NewUser): User
   }
 `;
 
