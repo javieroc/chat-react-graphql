@@ -1,0 +1,20 @@
+nav.navbar-space {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+nav.navbar-space .navbar-collapse a {
+    background-color: transparent !important;
+    border: 1px solid #FD5F00 !important;
+    border-radius: .25rem;
+    color: #FD5F00 !important;
+    text-align: center;
+    padding: .375rem .75rem !important;
+    margin: 0 5px;
+}
+
+nav.navbar-space .navbar-collapse a:hover {
+    background-color: #FD5F00 !important;
+    border: 1px solid #FD5F00 !important;
+    border-radius: .25rem;
+    color: rgba(0, 0, 0, 0.9) !important;
+}
