@@ -7,11 +7,12 @@ module.exports = {
     // Create 10 users
     const promises = Array(10).fill().map(() => {
       return utils.encryptPassword('secret').then((hash) => {
+        const { username } = casual;
         return user.create({
-          username: casual.username,
+          username,
           email: casual.email,
           password: hash,
-          avatar: 'http://www.gravatar.com/avatar/?s=200',
+          avatar: `https://robohash.org/${username}/?size=200x200`,
         });
       });
     });

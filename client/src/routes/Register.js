@@ -22,9 +22,14 @@ class Register extends Component {
     this.setState({ [name]: value });
   }
 
-  handleSubmit(event) {
+  async handleSubmit(event) {
     event.preventDefault();
-    console.log(this.state);
+    const user = await this.props.mutate({
+      variables: {
+        newUser: this.state,
+      },
+    });
+    console.log(user);
   }
 
   render() {
@@ -78,4 +83,15 @@ class Register extends Component {
   }
 }
 
-export default Register;
+const registerMutation = gql`
+  mutation signUp($newUser: NewUser!) {
+    signUp(newUser: $newUser) {
+      id
+      username
+      email
+      avatar
+    }
+  }
+`;
+
+export default graphql(registerMutation)(Register);

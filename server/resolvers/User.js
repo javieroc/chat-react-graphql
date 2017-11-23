@@ -70,10 +70,16 @@ const userResolvers = {
   },
   Mutation: {
     signUp: async (parent, { newUser }) => {
-      const { password, ...otherArgs } = newUser;
+      const { username, email, password } = newUser;
       const hashedPassword = await utils.encryptPassword(password);
+      const avatar = `https://robohash.org/${username}/?size=200x200`;
 
-      return user.create({ ...otherArgs, password: hashedPassword });
+      return user.create({
+        username,
+        email,
+        password: hashedPassword,
+        avatar,
+      });
     },
   },
 };
