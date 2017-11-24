@@ -4,11 +4,27 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
       unique: true,
+      validate: {
+        isAlphanumeric: {
+          args: true,
+          msg: 'The username can only contains letters and numbers',
+        },
+        len: {
+          args: [5, 20],
+          msg: 'The username needs to be between 5 and 20 characters long',
+        },
+      },
     },
     email: {
       type: DataTypes.STRING,
       allowNull: false,
       unique: true,
+      validate: {
+        isEmail: {
+          args: true,
+          msg: 'Invalid Email',
+        },
+      },
     },
     password: {
       type: DataTypes.STRING,

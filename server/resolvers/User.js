@@ -1,4 +1,4 @@
-import { user, room } from '../db/models';
+import models, { user, room } from '../db/models';
 import utils from '../utils';
 
 const userResolvers = {
@@ -70,16 +70,23 @@ const userResolvers = {
   },
   Mutation: {
     signUp: async (parent, { newUser }) => {
-      const { username, email, password } = newUser;
-      const hashedPassword = await utils.encryptPassword(password);
-      const avatar = `https://robohash.org/${username}/?size=200x200`;
+      try {
+        const { username, email, password } = newUser;
+        const hashedPassword = await utils.encryptPassword(password);
+        const avatar = `https://robohash.org/${username}/?size=200x200`;
 
-      return user.create({
-        username,
-        email,
-        password: hashedPassword,
-        avatar,
-      });
+        const userCreated = await user.create({
+          username,
+          email,
+          password: hashedPassword,
+          avatar,
+        });
+
+        return userCreated;
+      } catch (err) {
+        const errors = utils.formatErrors(err, models);
+        throw errors;
+      }
     },
   },
 };

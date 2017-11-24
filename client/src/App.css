@@ -22,3 +22,10 @@
     color: #FD5F00;
     opacity: 0.9;
 }
+
+.custom-alert {
+    border: 1px solid #E60BC7;
+    color: #E60BC7;
+    padding: 5px;
+    margin: 10px 0;
+}

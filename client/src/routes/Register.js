@@ -6,11 +6,11 @@ import './Register.css';
 class Register extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       username: '',
       email: '',
       password: '',
+      errorMessages: [],
     };
 
     this.onChange = this.onChange.bind(this);
@@ -24,12 +24,26 @@ class Register extends Component {
 
   async handleSubmit(event) {
     event.preventDefault();
-    const user = await this.props.mutate({
-      variables: {
-        newUser: this.state,
-      },
-    });
-    console.log(user);
+    try {
+      const { username, email, password } = this.state;
+      await this.props.mutate({
+        variables: {
+          newUser: {
+            username,
+            email,
+            password,
+          },
+        },
+      });
+
+      this.props.history.push('/');
+    } catch (err) {
+      if (err.graphQLErrors) {
+        this.setState({
+          errorMessages: err.graphQLErrors[0],
+        });
+      }
+    }
   }
 
   render() {
@@ -74,6 +88,14 @@ class Register extends Component {
                   value={password}
                 />
               </div>
+              {
+                this.state.errorMessages.length > 0 &&
+                <div className="custom-alert">
+                  {
+                    this.state.errorMessages.map(elem => <li key={elem.path}>{elem.message}</li>)
+                  }
+                </div>
+              }
               <button type="submit" className="btn btn-primary custom-button">Register</button>
             </form>
           </div>

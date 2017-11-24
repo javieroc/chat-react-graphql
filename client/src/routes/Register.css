@@ -8,25 +8,25 @@
 }
 
 .custom-input {
-    background-color: rgba(0, 0, 0, 0.1);
+    background-color: rgba(0, 0, 0, 0.6);
     color: #FD5F00;
 }
 
 .custom-input:focus {
-    background-color: rgba(0, 0, 0, 0.1);
+    background-color: rgba(0, 0, 0, 0.6);
     border-color: #FD5F00;
     color: #80bdff;
     border-radius: 0;
 }
 
 .custom-button {
-    background-color: #3D424F;
-    border-color: #3D424F;
+    background-color: #FD5F00;
+    border-color: #FD5F00;
     border-radius: 0;
     width: 100%;
 }
 
 .custom-button:hover {
-    background-color: #FD5F00;
-    border-color: #FD5F00;
+    background-color: #3D424F;
+    border-color: #3D424F;
 }

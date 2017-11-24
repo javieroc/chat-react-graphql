@@ -10,6 +10,9 @@ app.use(
   bodyParser.json(),
   graphqlExpress({
     schema,
+    formatError: (error) => {
+      return error.originalError;
+    },
   }),
 );
 
