@@ -17,6 +17,7 @@
     "express": "^4.15.4",
     "graphql": "^0.11.3",
     "graphql-tools": "^1.2.2",
+    "jsonwebtoken": "^8.1.0",
     "lodash": "^4.17.4",
     "pg": "^7.3.0",
     "pg-hstore": "^2.3.2",

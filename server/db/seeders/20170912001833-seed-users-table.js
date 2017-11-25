@@ -1,12 +1,16 @@
 const casual = require('casual');
+const bcrypt = require('bcrypt');
 const { user } = require('../models');
-const utils = require('../../utils');
+
+const encryptPassword = (password) => {
+  return bcrypt.hash(password, 10).then(hash => hash);
+};
 
 module.exports = {
   up: () => {
     // Create 10 users
     const promises = Array(10).fill().map(() => {
-      return utils.encryptPassword('secret').then((hash) => {
+      return encryptPassword('secret').then((hash) => {
         const { username } = casual;
         return user.create({
           username,

@@ -10,6 +10,17 @@ const User = `
     ): Rooms
   }
 
+  type LoginResponse {
+    user: User
+    token: String
+    refreshToken: String
+  }
+
+  input LoginData {
+    email: String!
+    password: String!
+  }
+
   input NewUser {
     username: String!
     email: String!

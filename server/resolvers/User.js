@@ -69,6 +69,35 @@ const userResolvers = {
     },
   },
   Mutation: {
+    login: async (parent, { loginData }) => {
+      const { email, password } = loginData;
+      const userRow = await user.findOne({
+        where: {
+          email,
+        },
+        raw: true,
+      });
+
+      if (!userRow) {
+        const error = [{ path: 'email', message: 'Wrong email' }];
+        throw error;
+      }
+
+      const valid = await utils.checkPassword(password, userRow.password);
+      if (!valid) {
+        // bad password
+        const error = [{ path: 'password', message: 'Wrong password' }];
+        throw error;
+      }
+
+      const [token, refreshToken] = await utils.createTokens(userRow);
+
+      return {
+        userRow,
+        token,
+        refreshToken,
+      };
+    },
     signUp: async (parent, { newUser }) => {
       try {
         const { username, email, password } = newUser;

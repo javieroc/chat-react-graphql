@@ -1,5 +1,6 @@
-const bcrypt = require('bcrypt');
-const _ = require('lodash');
+import bcrypt from 'bcrypt';
+import _ from 'lodash';
+import { createTokens } from './auth';
 
 const encryptPassword = (password) => {
   return bcrypt.hash(password, 10).then(hash => hash);
@@ -17,8 +18,9 @@ const formatErrors = (err, models) => {
   return [{ path: 'name', message: 'Something went wrong' }];
 };
 
-module.exports = {
+export default {
   encryptPassword,
   checkPassword,
   formatErrors,
+  createTokens,
 };

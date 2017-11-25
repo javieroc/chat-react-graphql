@@ -34,6 +34,7 @@ const rootQuery = `
 
   type Mutation {
     signUp(newUser: NewUser!): User
+    login(loginData: LoginData): LoginResponse
   }
 `;
 
