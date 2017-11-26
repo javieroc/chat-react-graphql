@@ -33,7 +33,7 @@ const rootQuery = `
   }
 
   type Mutation {
-    signUp(newUser: NewUser!): User
+    register(registerData: RegisterData!): User
     login(loginData: LoginData): LoginResponse
   }
 `;

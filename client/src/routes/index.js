@@ -7,13 +7,15 @@ import ViewRoom from './ViewRoom';
 import Login from './Login';
 import Register from './Register';
 import Nav from '../components/Nav';
+import Home from './Home';
 
 const Routes = () => (
   <Router>
     <div>
       <Nav />
       <br />
-      <Route path="/" exact component={Login} />
+      <Route path="/" component={Home} />
+      <Route path="/login" exact component={Login} />
       <Route path="/register" exact component={Register} />
       <Route path="/rooms/:roomId?" component={ViewRoom} />
     </div>

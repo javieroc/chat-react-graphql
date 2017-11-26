@@ -93,14 +93,14 @@ const userResolvers = {
       const [token, refreshToken] = await utils.createTokens(userRow);
 
       return {
-        userRow,
+        user: userRow,
         token,
         refreshToken,
       };
     },
-    signUp: async (parent, { newUser }) => {
+    register: async (parent, { registerData }) => {
       try {
-        const { username, email, password } = newUser;
+        const { username, email, password } = registerData;
         const hashedPassword = await utils.encryptPassword(password);
         const avatar = `https://robohash.org/${username}/?size=200x200`;
 

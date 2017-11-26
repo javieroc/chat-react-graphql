@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { graphql } from 'react-apollo';
+import gql from 'graphql-tag';
 import './Login.css';
 
 class Login extends Component {
@@ -8,6 +10,7 @@ class Login extends Component {
     this.state = {
       email: '',
       password: '',
+      errorMessages: [],
     };
 
     this.onChange = this.onChange.bind(this);
@@ -21,7 +24,30 @@ class Login extends Component {
 
   async handleSubmit(event) {
     event.preventDefault();
-    console.log(this.state);
+    try {
+      const { email, password } = this.state;
+      const response = await this.props.mutate({
+        variables: {
+          loginData: {
+            email,
+            password,
+          },
+        },
+      });
+
+      const { user, token, refreshToken } = response.data.login;
+      localStorage.setItem('user', user);
+      localStorage.setItem('token', token);
+      localStorage.setItem('refreshToken', refreshToken);
+
+      this.props.history.push('/');
+    } catch (err) {
+      if (err.graphQLErrors) {
+        this.setState({
+          errorMessages: err.graphQLErrors[0],
+        });
+      }
+    }
   }
 
   render() {
@@ -55,6 +81,14 @@ class Login extends Component {
                   value={password}
                 />
               </div>
+              {
+                this.state.errorMessages.length > 0 &&
+                <div className="custom-alert">
+                  {
+                    this.state.errorMessages.map(elem => <li key={elem.path}>{elem.message}</li>)
+                  }
+                </div>
+              }
               <button type="submit" className="btn btn-primary custom-button">Login</button>
             </form>
           </div>
@@ -64,4 +98,20 @@ class Login extends Component {
   }
 }
 
-export default Login;
+const loginMutation = gql`
+  mutation login($loginData: LoginData!) {
+    login(loginData: $loginData) {
+      user {
+        id
+        username
+        email
+        avatar
+      }
+      token
+      refreshToken
+    }
+  }
+`;
+
+
+export default graphql(loginMutation)(Login);

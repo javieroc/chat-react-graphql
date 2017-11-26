@@ -28,7 +28,7 @@ class Register extends Component {
       const { username, email, password } = this.state;
       await this.props.mutate({
         variables: {
-          newUser: {
+          registerData: {
             username,
             email,
             password,
@@ -106,8 +106,8 @@ class Register extends Component {
 }
 
 const registerMutation = gql`
-  mutation signUp($newUser: NewUser!) {
-    signUp(newUser: $newUser) {
+  mutation register($registerData: RegisterData!) {
+    register(registerData: $registerData) {
       id
       username
       email

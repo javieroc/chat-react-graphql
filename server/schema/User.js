@@ -21,7 +21,7 @@ const User = `
     password: String!
   }
 
-  input NewUser {
+  input RegisterData {
     username: String!
     email: String!
     password: String!
