@@ -14,7 +14,7 @@ const Routes = () => (
     <div>
       <Nav />
       <br />
-      <Route path="/" component={Home} />
+      <Route path="/" exact component={Home} />
       <Route path="/login" exact component={Login} />
       <Route path="/register" exact component={Register} />
       <Route path="/rooms/:roomId?" component={ViewRoom} />
