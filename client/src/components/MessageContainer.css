@@ -3,6 +3,8 @@
     margin-top: 20px;
     overflow-y: scroll;
     padding: 5px;
+    display: flex;
+    flex-direction: column-reverse;
 }
 
 .username-chat {
