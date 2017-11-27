@@ -1,9 +1,10 @@
 import React from 'react';
-import { graphql, compose } from 'react-apollo';
+import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import { Redirect } from 'react-router-dom';
 import Rooms from '../components/Rooms';
-import Chat from '../components/Chat';
+import MessageContainer from '../components/MessageContainer';
+import SendMessage from '../components/SendMessage';
 import Spin from '../components/Spin';
 import './ViewRoom.css';
 
@@ -27,7 +28,8 @@ const ViewRoom = (props) => {
             <Rooms {...props.roomsQuery} />
           </div>
           <div className="col-md-8">
-            <Chat {...props.messagesQuery} />
+            <MessageContainer {...props} />
+            <SendMessage />
           </div>
         </div>
       </div>
@@ -93,72 +95,6 @@ const RoomsQueryOptions = {
   },
 };
 
-const MessagesQuery = gql`
-  query Messages($roomId: Int, $first: Int!, $cursor: String) {
-    messages(roomId: $roomId, first: $first, after: $cursor) {
-      totalCount
-      edges {
-        cursor
-        node {
-          id
-          text
-          user {
-            username
-          }
-        }
-      }
-      pageInfo {
-        endCursor
-        hasNextPage
-      }
-    }
-  }
-`;
-
-const MessagesQueryOptions = {
-  options: ({ match }) => {
-    return {
-      variables: { roomId: match.params.roomId, first: 10 },
-      notifyOnNetworkStatusChange: true,
-    };
-  },
-  props: ({ ownProps: { match }, data: { loading, messages, fetchMore } }) => {
-    return {
-      messagesQuery: {
-        loading,
-        messages,
-        loadMoreMessages: () => {
-          return fetchMore({
-            query: MessagesQuery,
-            variables: {
-              roomId: match.params.roomId,
-              first: 3,
-              cursor: messages.pageInfo.endCursor,
-            },
-            updateQuery: (previousResult, { fetchMoreResult }) => {
-              const newEdges = fetchMoreResult.messages.edges;
-              const { pageInfo } = fetchMoreResult.messages;
-              const { totalCount } = fetchMoreResult.messages;
-              const { __typename } = previousResult.messages;
-              return {
-                messages: {
-                  __typename,
-                  totalCount,
-                  edges: [...previousResult.rooms.edges, ...newEdges],
-                  pageInfo,
-                },
-              };
-            },
-          });
-        },
-      },
-    };
-  },
-};
-
-const ViewRoomData = compose(
-  graphql(RoomsQuery, RoomsQueryOptions),
-  graphql(MessagesQuery, MessagesQueryOptions),
-)(ViewRoom);
+const ViewRoomData = graphql(RoomsQuery, RoomsQueryOptions)(ViewRoom);
 
 export default ViewRoomData;

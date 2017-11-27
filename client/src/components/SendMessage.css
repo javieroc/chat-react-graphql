@@ -1,0 +1,12 @@
+#send-message .custom-input {
+    background-color: rgba(0, 0, 0, 0.6);
+    border-color: #FD5F00;
+    color: #FD5F00;
+}
+
+#send-message .custom-input:focus {
+    background-color: rgba(0, 0, 0, 0.6);
+    border-color: #FD5F00;
+    color: #80bdff;
+    border-radius: 0;
+}
