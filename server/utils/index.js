@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt';
 import _ from 'lodash';
-import { createTokens } from './auth';
+import { createTokens, refreshTokens, verifyUser } from './auth';
 
 const encryptPassword = (password) => {
   return bcrypt.hash(password, 10).then(hash => hash);
@@ -23,4 +23,6 @@ export default {
   checkPassword,
   formatErrors,
   createTokens,
+  refreshTokens,
+  verifyUser,
 };

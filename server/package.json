@@ -14,6 +14,7 @@
     "bcrypt": "^1.0.3",
     "body-parser": "^1.18.0",
     "casual": "^1.5.17",
+    "cors": "^2.8.4",
     "express": "^4.15.4",
     "graphql": "^0.11.3",
     "graphql-subscriptions": "^0.5.5",

@@ -1,6 +1,8 @@
 import React from 'react';
 import { ApolloClient } from 'apollo-client';
 import { createHttpLink } from 'apollo-link-http';
+import { ApolloLink } from 'apollo-link';
+import { setContext } from 'apollo-link-context';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { ApolloProvider } from 'react-apollo';
 import firebase from 'firebase';
@@ -17,8 +19,38 @@ const config = {
 
 firebase.initializeApp(config);
 
+const httpLink = createHttpLink({ uri: '/api/graphql' });
+
+const authMiddleware = setContext(() => ({
+  headers: {
+    'x-token': localStorage.getItem('token') || null,
+    'x-refresh-token': localStorage.getItem('refreshToken') || null,
+  },
+}));
+
+const authAfterware = new ApolloLink((operation, forward) => {
+  return forward(operation).map((response) => {
+    const context = operation.getContext();
+    const { response: { headers } } = context;
+
+    if (headers) {
+      const token = headers.get('x-token');
+      const refreshToken = headers.get('x-refresh-token');
+
+      if (token) {
+        localStorage.setItem('token', token);
+      }
+
+      if (refreshToken) {
+        localStorage.setItem('refreshToken', refreshToken);
+      }
+    }
+    return response;
+  });
+});
+
 const client = new ApolloClient({
-  link: createHttpLink({ uri: '/api/graphql' }),
+  link: authAfterware.concat(authMiddleware.concat(httpLink)),
   cache: new InMemoryCache(),
 });
 
