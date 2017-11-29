@@ -9,7 +9,6 @@ import ViewRoom from './ViewRoom';
 import Login from './Login';
 import Register from './Register';
 import Nav from '../components/Nav';
-import Home from './Home';
 import { isAuthenticated } from '../services';
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
