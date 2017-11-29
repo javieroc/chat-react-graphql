@@ -16,7 +16,7 @@ const ViewRoom = (props) => {
     const roomId = props.match.params.roomId || firstRoomId;
     const room = rooms.edges.find(elem => elem.node.id === roomId);
     if (!room) {
-      return <Redirect to={`/rooms/${firstRoomId}`} />;
+      return <Redirect to={`/${firstRoomId}`} />;
     }
   }
 

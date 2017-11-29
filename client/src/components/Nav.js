@@ -23,7 +23,7 @@ const Nav = () => {
           {
             isAuthenticated() &&
             <li className="nav-item">
-              <Link className="nav-link" to="/rooms">Rooms</Link>
+              <Link className="nav-link" to="/">Rooms</Link>
             </li>
           }
           {

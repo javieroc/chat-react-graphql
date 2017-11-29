@@ -47,7 +47,7 @@ class Rooms extends Component {
       roomsList = rooms.edges.map((elem) => {
         const room = elem.node;
         return (
-          <Link to={`/rooms/${room.id}`} className="list-group-item" key={room.id} onClick={e => this.handleClick(e)}>
+          <Link to={`/${room.id}`} className="list-group-item" key={room.id} onClick={e => this.handleClick(e)}>
             {room.name}
           </Link>
         );

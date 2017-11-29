@@ -36,10 +36,9 @@ const Routes = () => (
       <Nav />
       <br />
       <Switch>
-        <Route exact path="/" component={Home} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/register" component={Register} />
-        <PrivateRoute path="/rooms/:roomId?" component={ViewRoom} />
+        <PrivateRoute path="/:roomId?" component={ViewRoom} />
       </Switch>
     </div>
   </Router>
