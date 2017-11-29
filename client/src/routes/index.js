@@ -5,25 +5,12 @@ import {
   Switch,
   Redirect,
 } from 'react-router-dom';
-import decode from 'jwt-decode';
 import ViewRoom from './ViewRoom';
 import Login from './Login';
 import Register from './Register';
 import Nav from '../components/Nav';
 import Home from './Home';
-
-const isAuthenticated = () => {
-  const token = localStorage.getItem('token');
-  const refreshToken = localStorage.getItem('refreshToken');
-  try {
-    decode(token);
-    decode(refreshToken);
-  } catch (err) {
-    return false;
-  }
-
-  return true;
-};
+import { isAuthenticated } from '../services';
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
