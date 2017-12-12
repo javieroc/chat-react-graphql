@@ -29,7 +29,7 @@ const ViewRoom = (props) => {
           </div>
           <div className="col-md-8">
             <MessageContainer {...props} />
-            <SendMessage />
+            <SendMessage {...props} />
           </div>
         </div>
       </div>

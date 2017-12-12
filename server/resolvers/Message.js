@@ -1,4 +1,7 @@
+import { PubSub, withFilter } from 'graphql-subscriptions';
 import { message, room } from '../db/models';
+
+const pubsub = new PubSub();
 
 const messageResolvers = {
   Query: {
@@ -76,6 +79,73 @@ const messageResolvers = {
           hasNextPage,
         },
       };
+    },
+  },
+  Mutation: {
+    createMessage: async (parent, args, { user }) => {
+      try {
+        const { text } = args;
+        let { roomId } = args;
+        if (!roomId) {
+          const firstRoom = await room.findOne({
+            order: [
+              ['name', 'ASC'],
+            ],
+          });
+
+          roomId = firstRoom.id;
+        }
+
+        const messageCreated = await message.create({
+          text,
+          room_id: roomId,
+          user_id: user.id,
+        });
+
+        const messageUser = await message.findOne({
+          where: {
+            id: messageCreated.id,
+          },
+          include: [
+            'user',
+            'room',
+          ],
+        });
+
+        const payload = {
+          cursor: Buffer.from(messageUser.id.toString()).toString('base64'),
+          node: messageUser,
+        };
+
+        pubsub.publish('newRoomMessage', {
+          newRoomMessage: payload,
+        });
+
+        return true;
+      } catch (err) {
+        throw err;
+      }
+    },
+  },
+  Subscription: {
+    newRoomMessage: {
+      subscribe: withFilter(
+        () => pubsub.asyncIterator('newRoomMessage'),
+        async (payload, args) => {
+          let { roomId } = args;
+          if (!roomId) {
+            const firstRoom = await room.findOne({
+              order: [
+                ['name', 'ASC'],
+              ],
+            });
+
+            roomId = firstRoom.id;
+          }
+          const { room_id } = payload.newRoomMessage.node;
+          return room_id === parseInt(roomId, 10);
+        },
+      ),
     },
   },
 };

@@ -35,6 +35,11 @@ const rootQuery = `
   type Mutation {
     register(registerData: RegisterData!): User
     login(loginData: LoginData): LoginResponse
+    createMessage(roomId: Int, text: String!): Boolean!
+  }
+
+  type Subscription {
+    newRoomMessage(roomId: Int): MessageEdge!
   }
 `;
 

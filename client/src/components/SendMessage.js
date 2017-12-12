@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { graphql } from 'react-apollo';
+import gql from 'graphql-tag';
 import './SendMessage.css';
 
 class SendMessage extends Component {
@@ -18,14 +20,21 @@ class SendMessage extends Component {
     this.setState({ [name]: value });
   }
 
-  handleSubmit(event) {
+  async handleSubmit(event) {
     const ENTER_KEY = 13;
     const { text, isSubmitting } = this.state;
     if (event.keyCode === ENTER_KEY && !isSubmitting) {
-      console.log(text);
-      this.setState({
-        text: '',
-      });
+      const { roomId } = this.props.match.params;
+
+      if (text && text.trim()) {
+        await this.props.mutate({
+          variables: { roomId, text },
+        });
+
+        this.setState({
+          text: '',
+        });
+      }
     }
   }
 
@@ -46,4 +55,10 @@ class SendMessage extends Component {
   }
 }
 
-export default SendMessage;
+const createMessageMutation = gql`
+  mutation($roomId: Int, $text: String!) {
+    createMessage(roomId: $roomId, text: $text)
+  }
+`;
+
+export default graphql(createMessageMutation)(SendMessage);

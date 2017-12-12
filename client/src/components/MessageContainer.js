@@ -3,7 +3,51 @@ import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import './MessageContainer.css';
 
+const NewRoomMessageSubscription = gql`
+  subscription($roomId: Int) {
+    newRoomMessage(roomId: $roomId) {
+      cursor
+      node {
+        id
+        text
+        user {
+          username
+        }
+      }
+    }
+  }
+`;
+
 class MessageContainer extends Component {
+  constructor(props) {
+    super(props);
+
+    this.suscribe = this.suscribe.bind(this);
+  }
+
+  componentWillMount() {
+    this.unsubscribe = this.suscribe(this.props.messagesQuery.roomId);
+  }
+
+  componentWillReceiveProps({ messagesQuery: { roomId } }) {
+    if (this.props.messagesQuery.roomId !== roomId) {
+      if (this.unsubscribe) {
+        this.unsubscribe();
+      }
+      this.unsubscribe = this.suscribe(roomId);
+    }
+  }
+
+  componentWillUnmount() {
+    if (this.unsubscribe) {
+      this.unsubscribe();
+    }
+  }
+
+  suscribe(roomId) {
+    this.props.messagesQuery.subscribeToNewRoomMessage(roomId);
+  }
+
   render() {
     const { messages } = this.props.messagesQuery;
     let messagesList = [];
@@ -54,11 +98,12 @@ const MessagesQueryOptions = {
       notifyOnNetworkStatusChange: true,
     };
   },
-  props: ({ ownProps: { match }, data: { loading, messages, fetchMore } }) => {
+  props: ({ ownProps: { match }, data: { loading, messages, fetchMore, subscribeToMore } }) => {
     return {
       messagesQuery: {
         loading,
         messages,
+        roomId: match.params.roomId,
         loadMoreMessages: () => {
           return fetchMore({
             query: MessagesQuery,
@@ -77,6 +122,34 @@ const MessagesQueryOptions = {
                   __typename,
                   totalCount,
                   edges: [...previousResult.rooms.edges, ...newEdges],
+                  pageInfo,
+                },
+              };
+            },
+          });
+        },
+        subscribeToNewRoomMessage: (roomId) => {
+          return subscribeToMore({
+            document: NewRoomMessageSubscription,
+            variables: {
+              roomId,
+            },
+            updateQuery: (prev, { subscriptionData }) => {
+              if (!subscriptionData.newRoomMessage) {
+                return prev;
+              }
+
+              const { newRoomMessage } = subscriptionData;
+
+              const newEdges = [newRoomMessage, ...prev.messages.edges];
+              const { pageInfo } = prev.messages;
+              const { totalCount } = prev.messages;
+              const { __typename } = prev.messages;
+              return {
+                messages: {
+                  __typename,
+                  totalCount,
+                  edges: newEdges,
                   pageInfo,
                 },
               };
